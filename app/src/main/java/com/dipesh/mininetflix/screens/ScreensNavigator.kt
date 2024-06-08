@@ -31,8 +31,11 @@ class ScreensNavigator {
         parentNavControllerObserveJob = scope.launch {
             navController.currentBackStackEntryFlow.map { backStackEntry ->
                 val bottomTab = when (val routeName = backStackEntry.destination.route) {
-                    Route.MainTab.routeName -> BottomTab.Main
-                    Route.FavoritesTab.routeName -> BottomTab.Play
+                    Route.HomeTab.routeName -> BottomTab.Home
+                    Route.ChannelTab.routeName -> BottomTab.Channel
+                    Route.SearchTab.routeName -> BottomTab.Search
+                    Route.YouTab.routeName -> BottomTab.You
+                    Route.MoreTab.routeName -> BottomTab.More
                     null -> null
                     else -> throw RuntimeException("unsupported bottom tab: $routeName")
                 }
@@ -48,22 +51,21 @@ class ScreensNavigator {
         nestedNavControllerObserveJob = scope.launch {
             navController.currentBackStackEntryFlow.map { backStackEntry ->
                 val route = when (val routeName = backStackEntry.destination.route) {
-                    Route.MainTab.routeName -> Route.MainTab
-                    Route.FavoritesTab.routeName -> Route.FavoritesTab
-                    Route.QuestionsListScreen.routeName -> Route.QuestionsListScreen
-                    Route.QuestionDetailsScreen().routeName -> {
-                        val args = backStackEntry.arguments
-                        Route.QuestionDetailsScreen(
-                            args?.getString("questionId")!!,
-                            args?.getString("questionTitle")!!.decodeFromBase64()
-                        )
-                    }
-                    Route.FavoriteQuestionsScreen.routeName -> Route.FavoriteQuestionsScreen
+                    Route.HomeTab.routeName -> Route.HomeTab
+                    Route.ChannelTab.routeName -> Route.ChannelTab
+                    Route.SearchTab.routeName -> Route.SearchTab
+                    Route.YouTab.routeName -> Route.YouTab
+                    Route.MoreTab.routeName -> Route.MoreTab
+                    Route.HomeFragment.routeName -> Route.HomeFragment
+                    Route.ChannelFragment.routeName -> Route.ChannelFragment
+                    Route.SearchFragment.routeName -> Route.SearchFragment
+                    Route.YouFragment.routeName -> Route.YouFragment
+                    Route.MoreFragment.routeName -> Route.MoreFragment
                     null -> null
                     else -> throw RuntimeException("unsupported route: $routeName")
                 }
                 currentRoute.value = route
-                isRootRoute.value = route == Route.QuestionsListScreen
+                isRootRoute.value = route == Route.YouTab
             }.collect()
         }
 
@@ -77,10 +79,11 @@ class ScreensNavigator {
 
     fun toTab(bottomTab: BottomTab) {
         val route = when(bottomTab) {
-            BottomTab.Main -> Route.MainTab
-            BottomTab.Play -> Route.FavoritesTab
-            BottomTab.ComingSoon -> Route.FavoritesTab
-            BottomTab.Downloads -> Route.FavoritesTab
+            BottomTab.Home -> Route.HomeTab
+            BottomTab.Channel -> Route.ChannelTab
+            BottomTab.Search -> Route.SearchTab
+            BottomTab.You -> Route.YouTab
+            BottomTab.More -> Route.MoreTab
         }
         parentNavController.navigate(route.routeName) {
             parentNavController.graph.startDestinationRoute?.let { startRoute ->
@@ -99,7 +102,7 @@ class ScreensNavigator {
 
 
     companion object {
-        val BOTTOM_TABS = listOf(BottomTab.Main, BottomTab.Play, BottomTab.ComingSoon, BottomTab.Downloads)
+        val BOTTOM_TABS = listOf(BottomTab.Home, BottomTab.Channel, BottomTab.Search, BottomTab.You, BottomTab.More)
     }
 
 

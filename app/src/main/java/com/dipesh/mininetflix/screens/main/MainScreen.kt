@@ -3,6 +3,8 @@ package com.dipesh.mininetflix.screens.main
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,13 +12,13 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -24,8 +26,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dipesh.mininetflix.screens.Route
 import com.dipesh.mininetflix.screens.ScreensNavigator
-import kotlinx.coroutines.flow.map
-
 
 @Composable
 fun MainScreen(
@@ -42,40 +42,14 @@ fun MainScreen(
 
     val isRootRoute = screensNavigator.isRootRoute.collectAsState()
 
-    val isShowFavoriteButton = screensNavigator.currentRoute.map { route ->
-        route is Route.QuestionDetailsScreen
-    }.collectAsState(initial = false)
-
-    val questionIdAndTitle = remember(currentRoute.value) {
-        if (currentRoute.value is Route.QuestionDetailsScreen) {
-            Pair(
-                (currentRoute.value as Route.QuestionDetailsScreen).questionId,
-                (currentRoute.value as Route.QuestionDetailsScreen).questionTitle,
-            )
-        } else {
-            Pair("", "")
-        }
-    }
-
     var isFavoriteQuestion by remember { mutableStateOf(false) }
-
-    if (isShowFavoriteButton.value && questionIdAndTitle.first.isNotEmpty()) {
-        LaunchedEffect(questionIdAndTitle) {
-            mainViewModel.isQuestionFavorite(questionIdAndTitle.first).collect {
-                isFavoriteQuestion = it
-            }
-        }
-    }
 
     Scaffold(
         topBar = {
             MyTopAppBar(
                 isRootRoute = isRootRoute.value,
-                isShowFavoriteButton = isShowFavoriteButton.value,
-                isFavoriteQuestion = isFavoriteQuestion,
-                questionIdAndTitle = questionIdAndTitle,
                 onToggleFavoriteClicked = {
-                    mainViewModel.toggleFavoriteQuestion(questionIdAndTitle.first, questionIdAndTitle.second)
+
                 },
                 onBackClicked = {
                     screensNavigator.navigateBack()
@@ -121,57 +95,83 @@ private fun MainScreenContent(
             navController = parentNavController,
             enterTransition = { fadeIn(animationSpec = tween(200)) },
             exitTransition = { fadeOut(animationSpec = tween(200)) },
-            startDestination = Route.MainTab.routeName,
+            startDestination = Route.HomeTab.routeName,
         ) {
-            composable(route = Route.MainTab.routeName) {
+            composable(route = Route.HomeTab.routeName) {
                 val mainNestedNavController = rememberNavController()
                 screensNavigator.setNestedNavController(mainNestedNavController)
-                NavHost(navController = mainNestedNavController, startDestination = Route.QuestionsListScreen.routeName) {
-                    composable(route = Route.QuestionsListScreen.routeName) {
-                        /*QuestionsListScreen(
-                            onQuestionClicked = { clickedQuestionId, clickedQuestionTitle ->
-                                screensNavigator.toRoute(Route.QuestionDetailsScreen(clickedQuestionId, clickedQuestionTitle))
-                            },
-                        )*/
-                    }
-                    composable(route = Route.QuestionDetailsScreen().routeName) {
-                        val questionId = remember {
-                            (screensNavigator.currentRoute.value as Route.QuestionDetailsScreen).questionId
-                        }
-                        /*QuestionDetailsScreen(
-                            questionId = questionId,
-                            onError = {
-                                screensNavigator.navigateBack()
-                            }
-                        )*/
+                NavHost(navController = mainNestedNavController, startDestination = Route.HomeFragment.routeName) {
+                    composable(route = Route.HomeFragment.routeName) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                                .background(
+                                    color = Color.Red
+                                )
+                        )
                     }
                 }
             }
 
-            composable(route = Route.FavoritesTab.routeName) {
-                val favoritesNestedNavController = rememberNavController()
-                screensNavigator.setNestedNavController(favoritesNestedNavController)
-                NavHost(navController = favoritesNestedNavController, startDestination = Route.FavoriteQuestionsScreen.routeName) {
-                    composable(route = Route.FavoriteQuestionsScreen.routeName) {
-                        /*FavoriteQuestionsScreen(
-                            onQuestionClicked = { favoriteQuestionId, favoriteQuestionTitle ->
-                                screensNavigator.toRoute(Route.QuestionDetailsScreen(favoriteQuestionId, favoriteQuestionTitle))
-                            }
-                        )*/
-                    }
-                    composable(route = Route.QuestionDetailsScreen().routeName) {
-                        val questionId = remember {
-                            (screensNavigator.currentRoute.value as Route.QuestionDetailsScreen).questionId
-                        }
-                        /*QuestionDetailsScreen(
-                            questionId = questionId,
-                            onError = {
-                                screensNavigator.navigateBack()
-                            }
-                        )*/
+            composable(route = Route.ChannelTab.routeName) {
+                val mainNestedNavController = rememberNavController()
+                screensNavigator.setNestedNavController(mainNestedNavController)
+                NavHost(navController = mainNestedNavController, startDestination = Route.ChannelFragment.routeName) {
+                    composable(route = Route.ChannelFragment.routeName) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                                .background(
+                                    color = Color.Cyan
+                                )
+                        )
                     }
                 }
             }
+
+            composable(route = Route.SearchTab.routeName) {
+                val mainNestedNavController = rememberNavController()
+                screensNavigator.setNestedNavController(mainNestedNavController)
+                NavHost(navController = mainNestedNavController, startDestination = Route.SearchFragment.routeName) {
+                    composable(route = Route.SearchFragment.routeName) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                                .background(
+                                    color = Color.Blue
+                                )
+                        )
+                    }
+                }
+            }
+
+            composable(route = Route.YouTab.routeName) {
+                val mainNestedNavController = rememberNavController()
+                screensNavigator.setNestedNavController(mainNestedNavController)
+                NavHost(navController = mainNestedNavController, startDestination = Route.YouFragment.routeName) {
+                    composable(route = Route.YouFragment.routeName) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                                .background(
+                                    color = Color.Green
+                                )
+                        )
+                    }
+                }
+            }
+
+            composable(route = Route.MoreTab.routeName) {
+                val mainNestedNavController = rememberNavController()
+                screensNavigator.setNestedNavController(mainNestedNavController)
+                NavHost(navController = mainNestedNavController, startDestination = Route.YouTab.routeName) {
+                    composable(route = Route.YouTab.routeName) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                                .background(
+                                    color = Color.Yellow
+                                )
+                        )
+                    }
+                }
+            }
+
         }
     }
 }

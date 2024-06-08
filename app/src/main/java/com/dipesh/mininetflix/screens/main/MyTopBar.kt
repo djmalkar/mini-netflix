@@ -22,9 +22,6 @@ import com.dipesh.mininetflix.R
 @Composable
 fun MyTopAppBar(
     isRootRoute: Boolean,
-    isFavoriteQuestion: Boolean,
-    isShowFavoriteButton: Boolean,
-    questionIdAndTitle: Pair<String, String>,
     onToggleFavoriteClicked: () -> Unit,
     onBackClicked: () -> Unit,
 ) {
@@ -56,20 +53,14 @@ fun MyTopAppBar(
         },
 
         actions = {
-            if (isShowFavoriteButton) {
-                IconButton(
-                    onClick = onToggleFavoriteClicked
-                ) {
-                    Icon(
-                        imageVector = if (isFavoriteQuestion) {
-                            Icons.Filled.Favorite
-                        } else {
-                            Icons.Filled.FavoriteBorder
-                        },
-                        contentDescription = "Favorite",
-                        tint = Color.White
-                    )
-                }
+            IconButton(
+                onClick = onToggleFavoriteClicked
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = Color.White
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.primary),

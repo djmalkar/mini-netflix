@@ -7,6 +7,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.style.TextAlign
 import com.dipesh.mininetflix.screens.BottomTab
 
 @Composable
@@ -20,7 +21,12 @@ fun MyBottomTabsBar(
             NavigationBarItem(
                 alwaysShowLabel = true,
                 icon = { Icon(bottomTab.icon!!, contentDescription = bottomTab.title) },
-                label = { Text(bottomTab.title) },
+                /*label = {
+                    Text(
+                        text = bottomTab.title,
+                        textAlign = TextAlign.Center
+                    )
+                },*/
                 selected = currentBottomTab == bottomTab,
                 onClick = { onTabClicked(bottomTab) },
                 colors = NavigationBarItemDefaults.colors(
