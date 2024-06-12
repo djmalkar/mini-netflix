@@ -26,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dipesh.mininetflix.screens.Route
 import com.dipesh.mininetflix.screens.ScreensNavigator
+import com.dipesh.mininetflix.screens.dashboard.DashboardScreen
 
 @Composable
 fun MainScreen(
@@ -100,14 +101,9 @@ private fun MainScreenContent(
             composable(route = Route.HomeTab.routeName) {
                 val mainNestedNavController = rememberNavController()
                 screensNavigator.setNestedNavController(mainNestedNavController)
-                NavHost(navController = mainNestedNavController, startDestination = Route.HomeFragment.routeName) {
-                    composable(route = Route.HomeFragment.routeName) {
-                        Box(
-                            modifier = Modifier.fillMaxSize()
-                                .background(
-                                    color = Color.Red
-                                )
-                        )
+                NavHost(navController = mainNestedNavController, startDestination = Route.MainDashboardFragment.routeName) {
+                    composable(route = Route.MainDashboardFragment.routeName) {
+                        DashboardScreen()
                     }
                 }
             }

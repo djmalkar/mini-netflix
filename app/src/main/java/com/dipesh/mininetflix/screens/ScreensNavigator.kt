@@ -1,7 +1,6 @@
 package com.dipesh.mininetflix.screens
 
 import androidx.navigation.NavHostController
-import com.dipesh.mininetflix.common.base64.Base64EncodeDecode.decodeFromBase64
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -56,7 +55,7 @@ class ScreensNavigator {
                     Route.SearchTab.routeName -> Route.SearchTab
                     Route.YouTab.routeName -> Route.YouTab
                     Route.MoreTab.routeName -> Route.MoreTab
-                    Route.HomeFragment.routeName -> Route.HomeFragment
+                    Route.MainDashboardFragment.routeName -> Route.MainDashboardFragment
                     Route.ChannelFragment.routeName -> Route.ChannelFragment
                     Route.SearchFragment.routeName -> Route.SearchFragment
                     Route.YouFragment.routeName -> Route.YouFragment
