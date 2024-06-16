@@ -1,13 +1,13 @@
 package com.dipesh.mininetflix.screens.main
 
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import com.dipesh.mininetflix.screens.BottomTab
 
 @Composable
@@ -16,21 +16,32 @@ fun MyBottomTabsBar(
     currentBottomTab: BottomTab?,
     onTabClicked: (BottomTab) -> Unit,
 ) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = Color.DarkGray
+    ) {
         bottomTabs.forEachIndexed { _, bottomTab ->
             NavigationBarItem(
                 alwaysShowLabel = true,
-                icon = { Icon(bottomTab.icon!!, contentDescription = bottomTab.title) },
-                /*label = {
+                label = {
                     Text(
                         text = bottomTab.title,
-                        textAlign = TextAlign.Center
+                        fontSize = 12.sp,
+                        color = Color.Gray,
                     )
-                },*/
+                },
+                icon = {
+                    Icon(
+                        imageVector = bottomTab.icon!!,
+                        contentDescription = bottomTab.title,
+                        tint = Color.Gray
+                    )
+                },
                 selected = currentBottomTab == bottomTab,
                 onClick = { onTabClicked(bottomTab) },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                    selectedIconColor = Color.White,
+                    selectedTextColor = Color.White,
+                    indicatorColor = Color.DarkGray
                 )
             )
         }
