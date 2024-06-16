@@ -39,11 +39,7 @@ fun MainScreen(
 
     val currentBottomTab = screensNavigator.currentBottomTab.collectAsState()
 
-    val currentRoute = screensNavigator.currentRoute.collectAsState()
-
     val isRootRoute = screensNavigator.isRootRoute.collectAsState()
-
-    var isFavoriteQuestion by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {

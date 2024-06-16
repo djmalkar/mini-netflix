@@ -29,6 +29,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
@@ -84,6 +85,7 @@ fun DashboardScreen() {
                 startY = 600f
             )
 
+            // Trending Movies Poster
             Box {
                 HorizontalPager(
                     state = pagerState,
@@ -116,6 +118,7 @@ fun DashboardScreen() {
                             )
                             Text(
                                 text = "Watch Now",
+                                style = MaterialTheme.typography.labelMedium,
                             )
                         }
                     }
@@ -148,6 +151,7 @@ fun DashboardScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Categories in Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -165,6 +169,7 @@ fun DashboardScreen() {
                         label = { Text(
                             text = it,
                             color = Color.White,
+                            style = MaterialTheme.typography.labelMedium
                         ) },
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -182,6 +187,7 @@ fun DashboardScreen() {
                 )
             )
 
+            // Continue Watching Section
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -274,6 +280,7 @@ fun DashboardScreen() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // New or Latest Releases
             Row(
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -332,6 +339,7 @@ fun DashboardScreen() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Recommendations
             Row(
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -361,18 +369,6 @@ fun DashboardScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Top 10 Movies",
-                    color = Color.White,
-                    modifier = Modifier.padding(start = 8.dp),
-                    fontSize = 18.sp
-                )
-            }
         }
 
         PullToRefreshContainer(
