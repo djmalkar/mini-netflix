@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,6 +36,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,20 +45,40 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.dipesh.mininetflix.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    viewModel: DashboardViewModel = hiltViewModel()
+) {
+
+    val movies = viewModel.lastActiveMovies.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchLastActiveMovies()
+    }
 
     val state = rememberPullToRefreshState()
 
+    if (state.isRefreshing) {
+        LaunchedEffect(Unit) {
+            viewModel.fetchLastActiveMovies(forceUpdate = true)
+            state.endRefresh()
+        }
+    }
+
     Box(
-        modifier = Modifier.nestedScroll(state.nestedScrollConnection)
+        modifier = Modifier
+            .nestedScroll(state.nestedScrollConnection)
             .background(Color.Black)
     ) {
 
@@ -63,21 +86,9 @@ fun DashboardScreen() {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            val dashboardMainImages = listOf (
-                R.drawable.one_isto_one,
-                R.drawable.one_isto_one_2,
-                R.drawable.one_isto_one_3,
-                R.drawable.one_isto_one_4,
-                R.drawable.one_isto_one_5,
-                R.drawable.one_isto_one,
-                R.drawable.one_isto_one_2,
-                R.drawable.one_isto_one_3,
-                R.drawable.one_isto_one_4,
-                R.drawable.one_isto_one_5
-            )
 
             val pagerState = rememberPagerState(pageCount = {
-                dashboardMainImages.size
+                movies.value.size
             })
 
             val blackBottomGradient = Brush.verticalGradient(
@@ -94,11 +105,20 @@ fun DashboardScreen() {
                     )
                 ) {
                     Box {
-                        Image(
-                            painter = painterResource(id = dashboardMainImages[it]),
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(movies.value[it].posterPath)
+                                .build(),
+                            placeholder = painterResource(R.drawable.trending_placeholder),
+                            modifier = Modifier.fillMaxWidth()
+                                .aspectRatio(0.667f),
                             contentScale = ContentScale.FillWidth,
-                            modifier = Modifier.fillMaxWidth(),
                             contentDescription = "Dashboard Main Images"
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .background(blackBottomGradient)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
@@ -123,11 +143,7 @@ fun DashboardScreen() {
                         }
                     }
                 }
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(blackBottomGradient)
-                )
+
                 Row(
                     Modifier
                         .wrapContentHeight()
@@ -220,7 +236,8 @@ fun DashboardScreen() {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .background(Color.DarkGray)
                         ) {
                             Text(
