@@ -1,4 +1,4 @@
-package com.dipesh.mininetflix.movie
+package com.dipesh.mininetflix.movie.usecases
 
 import com.dipesh.mininetflix.BuildConfig
 import com.dipesh.mininetflix.common.Constants
@@ -8,14 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FetchTrendingMoviesUseCase @Inject constructor(
+class FetchNowPlayingMoviesUseCase @Inject constructor(
     private val moviesApi: MoviesApi
 ) {
-    private var movies: List<MovieDao> = emptyList()
+    private var nowPlayingMovies: List<MovieDao> = emptyList()
 
-    suspend fun fetchTrendingMovies(): List<MovieDao> {
+    suspend fun fetchNowPlayingMovies(): List<MovieDao> {
         return withContext(Dispatchers.IO) {
-            movies = moviesApi.getTopRatedMovies(BuildConfig.API_KEY).results.map { moviesSchema ->
+            nowPlayingMovies = moviesApi.getNowPlayingMovies(BuildConfig.API_KEY).results.map { moviesSchema ->
                 MovieDao(
                     Constants.IMAGE_BASE_URL_W500 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
@@ -29,7 +29,7 @@ class FetchTrendingMoviesUseCase @Inject constructor(
                     moviesSchema.voteCount
                 )
             }
-            movies
+            nowPlayingMovies
         }
     }
 }

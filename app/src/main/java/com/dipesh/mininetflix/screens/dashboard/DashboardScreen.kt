@@ -61,10 +61,15 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel()
 ) {
 
-    val movies = viewModel.lastActiveMovies.collectAsState()
+    val trendingMovies = viewModel.latestTrendingMovies.collectAsState()
+    val nowPlayingMovies = viewModel.latestNowPlayingMovies.collectAsState()
+    val upcomingMovies = viewModel.latestTrendingMovies.collectAsState()
+    val genres = viewModel.latestGenres.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchLastActiveMovies()
+        viewModel.fetchNowPlaying()
+        viewModel.fetchGenres()
     }
 
     val state = rememberPullToRefreshState()
@@ -88,7 +93,7 @@ fun DashboardScreen(
         ) {
 
             val pagerState = rememberPagerState(pageCount = {
-                movies.value.size
+                trendingMovies.value.size
             })
 
             val blackBottomGradient = Brush.verticalGradient(
@@ -107,7 +112,7 @@ fun DashboardScreen(
                     Box {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(movies.value[it].posterPath)
+                                .data(trendingMovies.value[it].posterPath)
                                 .build(),
                             placeholder = painterResource(R.drawable.trending_placeholder),
                             modifier = Modifier.fillMaxWidth()
@@ -174,16 +179,13 @@ fun DashboardScreen(
                     .padding(start = 8.dp)
                     .horizontalScroll(rememberScrollState())
             ) {
-                val categories = listOf (
-                    "Sports", "Movies", "TV Shows", "Documentaries", "Comedy", "Drama", "Action", "Adventure"
-                )
-                categories.forEach {
+                genres.value.forEach {
                     SuggestionChip(
                         onClick = {  },
                         border = BorderStroke(1.dp, Color.White),
                         shape = RoundedCornerShape(50),
                         label = { Text(
-                            text = it,
+                            text = it.name,
                             color = Color.White,
                             style = MaterialTheme.typography.labelMedium
                         ) },
@@ -210,28 +212,17 @@ fun DashboardScreen(
                     .padding(start = 8.dp)
                     .horizontalScroll(rememberScrollState())
             ) {
-                val images = listOf (
-                    R.drawable.rectangle_1,
-                    R.drawable.rectangle_2,
-                    R.drawable.rectangle_3,
-                    R.drawable.rectangle_4,
-                    R.drawable.rectangle_5,
-                    R.drawable.rectangle_1,
-                    R.drawable.rectangle_2,
-                    R.drawable.rectangle_3,
-                    R.drawable.rectangle_4,
-                    R.drawable.rectangle_5
-                )
-                images.forEach {
+                nowPlayingMovies.value.forEach {
                     Column(modifier = Modifier.width(IntrinsicSize.Max)) {
-                        Image(
-                            painter = painterResource(id = it),
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.posterPath)
+                                .build(),
+                            placeholder = painterResource(R.drawable.trending_placeholder),
+                            modifier = Modifier.fillMaxWidth()
+                                .aspectRatio(0.667f),
                             contentScale = ContentScale.FillWidth,
-                            modifier = Modifier.size(
-                                width = 250.dp,
-                                height = 140.dp
-                            ),
-                            contentDescription = "Main Images"
+                            contentDescription = "Now Playing Images"
                         )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -304,22 +295,16 @@ fun DashboardScreen(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
             ) {
-                val images = listOf (
-                    R.drawable.protrait_1,
-                    R.drawable.protrait_3,
-                    R.drawable.protrait_4,
-                    R.drawable.protrait_5,
-                    R.drawable.protrait_1,
-                    R.drawable.protrait_3,
-                    R.drawable.protrait_4,
-                    R.drawable.protrait_5
-                )
-                images.forEach {
-                    Image(
-                        painter = painterResource(id = it),
+                upcomingMovies.value.forEach {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(it.posterPath)
+                            .build(),
+                        placeholder = painterResource(R.drawable.trending_placeholder),
+                        modifier = Modifier.fillMaxWidth()
+                            .aspectRatio(0.667f),
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.fillMaxWidth(),
-                        contentDescription = "Portrait Images"
+                        contentDescription = "Upcoming Movies"
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
