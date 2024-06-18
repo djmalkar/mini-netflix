@@ -17,17 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 
-val Primary = Color(0xFF3F51B5)
-val Secondary = Color(0xFF6C78B6)
-val Tertiary = Color(0xFFFF4081)
+val Primary = Color(0xFF000000)
+val Secondary = Color(0xFF121212)
+val Tertiary = Color(0xFFFFFFFF)
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Primary,
-    secondary = Secondary,
-    tertiary = Tertiary
-)
-
-private val LightColorScheme = lightColorScheme(
     primary = Primary,
     secondary = Secondary,
     tertiary = Tertiary
@@ -85,10 +79,7 @@ fun MyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = DarkColorScheme
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

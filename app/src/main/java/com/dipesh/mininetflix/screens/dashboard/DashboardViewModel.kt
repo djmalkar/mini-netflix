@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val fetchTrendingMoviesUseCase: FetchTrendingMoviesUseCase,
@@ -28,34 +27,13 @@ class DashboardViewModel @Inject constructor(
     val latestUpcomingMovies = MutableStateFlow<List<MovieDao>>(emptyList())
     val latestGenres = MutableStateFlow<List<GenreDao>>(emptyList())
 
-    suspend fun fetchLastActiveMovies(forceUpdate: Boolean = false) {
+    suspend fun fetchInitialDashboardData(forceUpdate: Boolean = false) {
         withContext(Dispatchers.Main.immediate) {
             if (forceUpdate || latestTrendingMovies.value.isEmpty()) {
-                latestTrendingMovies.value = fetchTrendingMoviesUseCase.fetchTrendingMovies()
-            }
-        }
-    }
-
-    suspend fun fetchGenres(forceUpdate: Boolean = false) {
-        withContext(Dispatchers.Main.immediate) {
-            if (forceUpdate || latestGenres.value.isEmpty()) {
-                latestGenres.value = fetchGenresUseCase.fetchGenres()
-            }
-        }
-    }
-
-    suspend fun fetchNowPlaying(forceUpdate: Boolean = false) {
-        withContext(Dispatchers.Main.immediate) {
-            if (forceUpdate || latestNowPlayingMovies.value.isEmpty()) {
-                latestNowPlayingMovies.value = fetchNowPlayingMoviesUseCase.fetchNowPlayingMovies()
-            }
-        }
-    }
-
-    suspend fun fetchUpcomingMovies(forceUpdate: Boolean = false) {
-        withContext(Dispatchers.Main.immediate) {
-            if (forceUpdate || latestUpcomingMovies.value.isEmpty()) {
-                latestUpcomingMovies.value = fetchUpcomingMoviesUseCase.fetchUpcomingMovies()
+                latestTrendingMovies.value = fetchTrendingMoviesUseCase.fetchTrendingMovies().take(8)
+                latestGenres.value = fetchGenresUseCase.fetchGenres().take(10)
+                latestNowPlayingMovies.value = fetchNowPlayingMoviesUseCase.fetchNowPlayingMovies().take(6)
+                latestUpcomingMovies.value = fetchUpcomingMoviesUseCase.fetchUpcomingMovies().take(7)
             }
         }
     }
