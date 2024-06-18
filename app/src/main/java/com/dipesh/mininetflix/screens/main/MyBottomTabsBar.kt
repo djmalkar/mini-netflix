@@ -21,32 +21,30 @@ fun MyBottomTabsBar(
 ) {
     NavigationBar(
         modifier = Modifier.height(60.dp),
-        containerColor = Color(0xFF0A0808)
+        containerColor = Color(0xFF0A0808),
     ) {
         bottomTabs.forEachIndexed { _, bottomTab ->
             NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color(0xFF0A0808)
+                ),
                 alwaysShowLabel = true,
                 label = {
                     Text(
                         text = bottomTab.title,
                         fontSize = 12.sp,
-                        color = Color.Gray,
+                        color = if (currentBottomTab == bottomTab) Color.White else Color.Gray,
                     )
                 },
                 icon = {
                     Icon(
                         imageVector = bottomTab.icon!!,
                         contentDescription = bottomTab.title,
-                        tint = Color.Gray
+                        tint = if (currentBottomTab == bottomTab) Color.White else Color.Gray
                     )
                 },
                 selected = currentBottomTab == bottomTab,
-                onClick = { onTabClicked(bottomTab) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    selectedTextColor = Color.White,
-                    indicatorColor = Color.DarkGray
-                )
+                onClick = { onTabClicked(bottomTab) }
             )
         }
     }

@@ -294,6 +294,7 @@ private fun NewReleaseCarousel(upcomingMovies: State<List<MovieDao>>) {
         Text(
             text = "NEW",
             fontWeight = FontWeight.Bold,
+            color = Color.Black,
             modifier = Modifier
                 .background(Color.Yellow)
                 .padding(horizontal = 4.dp),
