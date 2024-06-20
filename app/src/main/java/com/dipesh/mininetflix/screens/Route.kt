@@ -13,5 +13,7 @@ sealed class Route(val routeName: String) {
     data object YouFragment: Route("youFragment")
     data object MoreFragment: Route("moreFragment")
 
+    data object MovieDetailScreen: Route("movieDetailScreen")
+
     open val navCommand = routeName
 }

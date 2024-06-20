@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -62,6 +63,7 @@ import com.dipesh.mininetflix.movie.dao.MovieDao
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
+    onMovieDetailClicked: (String) -> Unit,
     viewModel: DashboardViewModel = hiltViewModel()
 ) {
 
@@ -94,7 +96,7 @@ fun DashboardScreen(
         ) {
             TrendingCarousel(trendingMovies)
             CategoriesChip(genres)
-            ContinueWatchingCarousel(nowPlayingMovies)
+            ContinueWatchingCarousel(nowPlayingMovies, onMovieDetailClicked)
             NewReleaseCarousel(upcomingMovies)
             RecommendedCarousel()
         }
@@ -221,7 +223,10 @@ private fun CategoriesChip(genres: State<List<GenreDao>>) {
 }
 
 @Composable
-private fun ContinueWatchingCarousel(nowPlayingMovies: State<List<MovieDao>>) {
+private fun ContinueWatchingCarousel(
+    nowPlayingMovies: State<List<MovieDao>>,
+    onMovieDetailClicked: (String) -> Unit
+) {
     Log.d("DashboardScreen", "ContinueWatchingCarousel")
     Text(
         text = "Continue Watching",
@@ -250,9 +255,10 @@ private fun ContinueWatchingCarousel(nowPlayingMovies: State<List<MovieDao>>) {
                     placeholder = painterResource(R.drawable.trending_placeholder),
                     modifier = Modifier
                         .fillMaxWidth()
+                        .clickable { onMovieDetailClicked("") }
                         .aspectRatio(0.667f),
                     contentScale = ContentScale.FillWidth,
-                    contentDescription = "Now Playing Images"
+                    contentDescription = "Now Playing Images",
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

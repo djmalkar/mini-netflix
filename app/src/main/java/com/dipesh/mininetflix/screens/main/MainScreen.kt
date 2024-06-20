@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.dipesh.mininetflix.screens.Route
 import com.dipesh.mininetflix.screens.ScreensNavigator
 import com.dipesh.mininetflix.screens.dashboard.DashboardScreen
+import com.dipesh.mininetflix.screens.detail.movie.MovieDetailScreen
 
 @Composable
 fun MainScreen(
@@ -80,7 +81,14 @@ private fun MainScreenContent(
                 screensNavigator.setNestedNavController(mainNestedNavController)
                 NavHost(navController = mainNestedNavController, startDestination = Route.MainDashboardFragment.routeName) {
                     composable(route = Route.MainDashboardFragment.routeName) {
-                        DashboardScreen()
+                        DashboardScreen(
+                            onMovieDetailClicked = {
+                                screensNavigator.toRoute(Route.MovieDetailScreen)
+                            }
+                        )
+                    }
+                    composable(route = Route.MovieDetailScreen.routeName) {
+                        MovieDetailScreen()
                     }
                 }
             }

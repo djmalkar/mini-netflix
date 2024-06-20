@@ -60,6 +60,7 @@ class ScreensNavigator {
                     Route.SearchFragment.routeName -> Route.SearchFragment
                     Route.YouFragment.routeName -> Route.YouFragment
                     Route.MoreFragment.routeName -> Route.MoreFragment
+                    Route.MovieDetailScreen.routeName -> Route.MovieDetailScreen
                     null -> null
                     else -> throw RuntimeException("unsupported route: $routeName")
                 }
