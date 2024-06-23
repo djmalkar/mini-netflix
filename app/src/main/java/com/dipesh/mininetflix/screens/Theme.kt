@@ -29,21 +29,26 @@ private val DarkColorScheme = darkColorScheme(
 
 val Typography = Typography(
     titleLarge = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        color = Color.White,
     ),
     titleMedium = TextStyle(
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
+        color = Color.White,
+    ),
+    titleSmall = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp,
+        color = Color.White,
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp
     ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 25.sp,
+        fontSize = 12.sp,
+        color = Color.White,
         lineHeight = 28.sp,
     ),
     bodyMedium = TextStyle(
@@ -53,10 +58,9 @@ val Typography = Typography(
         lineHeight = 28.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 28.sp,
+        fontSize = 12.sp,
+        color = Color.White,
     ),
     labelMedium = TextStyle(
         fontFamily = FontFamily.Default,
