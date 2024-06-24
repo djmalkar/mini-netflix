@@ -62,19 +62,20 @@ val Typography = Typography(
         fontSize = 12.sp,
         color = Color.White,
     ),
+    labelLarge = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        color = Color.White,
+    ),
     labelMedium = TextStyle(
-        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        color = Color.White,
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 12.sp,
     )
 )
 

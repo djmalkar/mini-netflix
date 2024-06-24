@@ -1,6 +1,6 @@
 package com.dipesh.mininetflix.screens.main
 
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -20,13 +20,12 @@ fun MyBottomTabsBar(
     onTabClicked: (BottomTab) -> Unit,
 ) {
     NavigationBar(
-        modifier = Modifier.height(60.dp),
         containerColor = Color(0xFF0A0808),
     ) {
         bottomTabs.forEachIndexed { _, bottomTab ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color(0xFF0A0808)
+                    indicatorColor = Color.Black
                 ),
                 alwaysShowLabel = true,
                 label = {
@@ -39,6 +38,8 @@ fun MyBottomTabsBar(
                 icon = {
                     Icon(
                         imageVector = bottomTab.icon!!,
+                        modifier = Modifier
+                            .size(28.dp),
                         contentDescription = bottomTab.title,
                         tint = if (currentBottomTab == bottomTab) Color.White else Color.Gray
                     )

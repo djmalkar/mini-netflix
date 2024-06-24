@@ -165,6 +165,7 @@ private fun TrendingCarousel(trendingMovies: State<List<MovieDao>>) {
                     Text(
                         text = "Watch Now",
                         style = MaterialTheme.typography.labelMedium,
+                        color = Color.Black,
                     )
                 }
             }
@@ -191,7 +192,6 @@ private fun TrendingCarousel(trendingMovies: State<List<MovieDao>>) {
             }
         }
     }
-
     Spacer(modifier = Modifier.height(16.dp))
 }
 
@@ -212,7 +212,6 @@ private fun CategoriesChip(genres: State<List<GenreDao>>) {
                 label = {
                     Text(
                         text = it.name,
-                        color = Color.White,
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
@@ -230,7 +229,7 @@ private fun ContinueWatchingCarousel(
     Log.d("DashboardScreen", "ContinueWatchingCarousel")
     Text(
         text = "Continue Watching",
-        color = Color.White,
+        style = MaterialTheme.typography.labelLarge,
         fontSize = 20.sp,
         modifier = Modifier.padding(
             top = 16.dp,
@@ -254,10 +253,8 @@ private fun ContinueWatchingCarousel(
                         .build(),
                     placeholder = painterResource(R.drawable.trending_placeholder),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onMovieDetailClicked("") }
-                        .aspectRatio(0.667f),
-                    contentScale = ContentScale.FillWidth,
+                        .width(160.dp)
+                        .clickable { onMovieDetailClicked("") },
                     contentDescription = "Now Playing Images",
                 )
                 Row(
@@ -269,8 +266,7 @@ private fun ContinueWatchingCarousel(
                 ) {
                     Text(
                         text = "S4:E2 . 9m left",
-                        fontSize = 16.sp,
-                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(8.dp)
                     )
                     Icon(
@@ -299,31 +295,29 @@ private fun NewReleaseCarousel(upcomingMovies: State<List<MovieDao>>) {
     ) {
         Text(
             text = "NEW",
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelSmall,
             color = Color.Black,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier
                 .background(Color.Yellow)
-                .padding(horizontal = 4.dp),
-            fontSize = 10.sp
+                .padding(4.dp),
+            letterSpacing = 0.15.sp
         )
         Text(
             text = "Releases",
-            color = Color.White,
+            style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(start = 8.dp),
-            fontSize = 18.sp
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "See all",
-            color = Color.White,
+            style = MaterialTheme.typography.labelSmall,
             modifier = Modifier.padding(end = 8.dp),
-            fontSize = 12.sp
         )
         Icon(
-            imageVector = Icons.Default.PlayArrow,
-            tint = Color.White,
-            modifier = Modifier.padding(end = 16.dp),
+            painter = painterResource(id = R.drawable.ic_right_arrow),
             contentDescription = "Play",
+            modifier = Modifier.padding(end = 16.dp),
         )
     }
 
@@ -343,8 +337,7 @@ private fun NewReleaseCarousel(upcomingMovies: State<List<MovieDao>>) {
                     .build(),
                 placeholder = painterResource(R.drawable.trending_placeholder),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(0.667f),
+                    .width(100.dp),
                 contentScale = ContentScale.FillWidth,
                 contentDescription = "Upcoming Movies"
             )
@@ -366,22 +359,18 @@ private fun RecommendedCarousel() {
     ) {
         Text(
             text = "Recommended For You",
-            color = Color.White,
-            modifier = Modifier.padding(start = 8.dp),
-            fontSize = 18.sp
+            style = MaterialTheme.typography.labelLarge,
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "See all",
-            color = Color.White,
+            style = MaterialTheme.typography.labelSmall,
             modifier = Modifier.padding(end = 8.dp),
-            fontSize = 12.sp
         )
         Icon(
-            imageVector = Icons.Default.PlayArrow,
-            tint = Color.White,
-            modifier = Modifier.padding(end = 16.dp),
+            painter = painterResource(id = R.drawable.ic_right_arrow),
             contentDescription = "Play",
+            modifier = Modifier.padding(end = 16.dp),
         )
     }
 
@@ -400,15 +389,11 @@ private fun RecommendedCarousel() {
             R.drawable.protrait_1,
             R.drawable.protrait_3,
             R.drawable.protrait_4,
-            R.drawable.protrait_5,
-            R.drawable.protrait_1,
-            R.drawable.protrait_3,
         )
         images.forEach {
             Image(
                 painter = painterResource(id = it),
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.width(160.dp),
                 contentDescription = "Recommended Images"
             )
             Spacer(modifier = Modifier.width(8.dp))
