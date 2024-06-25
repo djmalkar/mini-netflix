@@ -85,7 +85,7 @@ fun MovieDetailScreen(
 
         Text(
             text = "Movie Name",
-            fontSize = 26.sp,
+            style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
@@ -108,7 +108,9 @@ fun MovieDetailScreen(
                 contentDescription = ""
             )
             Text(
-                text = "Resume"
+                text = "Resume",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black
             )
         }
 
@@ -130,8 +132,7 @@ fun MovieDetailScreen(
                 )
                 Text(
                     text = "Watchlist",
-                    fontSize = 16.sp,
-                    color = Color.White
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
             Column(
@@ -146,8 +147,7 @@ fun MovieDetailScreen(
                 )
                 Text(
                     text = "Trailers",
-                    fontSize = 16.sp,
-                    color = Color.White
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
             Column(
@@ -161,8 +161,7 @@ fun MovieDetailScreen(
                 )
                 Text(
                     text = "Share",
-                    fontSize = 16.sp,
-                    color = Color.White
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
         }
@@ -173,22 +172,20 @@ fun MovieDetailScreen(
                     "of genres and languages. Members can play, pause and resume watching as much as they want, anytime, " +
                     "anywhere, and can change their plans at any time.Netflix VP of Finance to Present at the " +
                     "MoffettNathanson Media, Internet & Communications Conference",
-            color = Color.White,
+            style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            fontSize = 16.sp,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Text(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(vertical = 24.dp, horizontal = 16.dp)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = "Audio Available in: Hindi",
-            fontSize = 16.sp,
-            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
         )
 
         var tabIndex by remember { mutableIntStateOf(0) }
@@ -211,7 +208,8 @@ fun MovieDetailScreen(
                     content = {
                         Text(
                             text = title,
-                            fontSize = 16.sp
+                            style = MaterialTheme.typography.labelMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
                         )
                     }
                 )
@@ -221,7 +219,7 @@ fun MovieDetailScreen(
         when (tabIndex) {
             0 -> EpisodesTab()
             1 -> MoreTab(nowPlayingMovies)
-            2 -> CastTab()
+            2 -> CastTab(nowPlayingMovies)
         }
     }
 }
@@ -306,141 +304,4 @@ private fun MovieTopGenres() {
 @Preview
 fun PreviewMovieTopGenres() {
 
-}
-
-@Composable
-fun SingleEpisodeDescription() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Row {
-            Image(
-                modifier = Modifier
-                    .width(120.dp),
-                painter = painterResource(id = R.drawable.landscape),
-                contentDescription = "thumbnail"
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "1. Pilot",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "34 min Thursday, Jun 6",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Netflix is an American subscription video on-demand Internet streaming service. The service primarily distributes original and acquired films and television shows from various genres, and it is available internationally in multiple languages.",
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 2,
-        )
-    }
-}
-
-@Composable
-fun EpisodesTab() {
-    Column {
-        for (i in 0 until 5) {
-            SingleEpisodeDescription()
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-    }
-}
-
-@Composable
-fun MoreTab(nowPlayingMovies: State<List<MovieDao>>) {
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Text(
-            text = "Users Also Watched",
-            style = MaterialTheme.typography.titleLarge,
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Users also Watch
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-        ) {
-            nowPlayingMovies.value.forEach {
-                Column(modifier = Modifier.width(IntrinsicSize.Max)) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(it.posterPath)
-                            .build(),
-                        placeholder = painterResource(R.drawable.trending_placeholder),
-                        modifier = Modifier
-                            .width(100.dp)
-                            .clickable { },
-                        contentScale = ContentScale.FillWidth,
-                        contentDescription = "Now Playing Images",
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Similar Titles You Might Enjoy",
-            style = MaterialTheme.typography.titleLarge,
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Similar Titles
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-        ) {
-            nowPlayingMovies.value.forEach {
-                Column(modifier = Modifier.width(IntrinsicSize.Max)) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(it.posterPath)
-                            .build(),
-                        placeholder = painterResource(R.drawable.trending_placeholder),
-                        modifier = Modifier
-                            .width(100.dp)
-                            .clickable { },
-                        contentScale = ContentScale.FillWidth,
-                        contentDescription = "Now Playing Images",
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-
-}
-
-@Composable
-fun CastTab() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .requiredHeight(200.dp)
-            .background(Color.Yellow)
-    ) {
-
-    }
 }

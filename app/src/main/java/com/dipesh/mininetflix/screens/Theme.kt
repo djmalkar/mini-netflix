@@ -47,30 +47,29 @@ val Typography = Typography(
     ),
     bodyLarge = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 20.sp,
         color = Color.White,
         lineHeight = 28.sp,
     ),
     bodyMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        color = Color.White,
+        fontSize = 18.sp,
     ),
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
         color = Color.White,
+        fontSize = 12.sp,
     ),
     labelLarge = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp,
         color = Color.White,
+        fontSize = 20.sp,
     ),
     labelMedium = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
         color = Color.White,
+        fontSize = 16.sp,
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
