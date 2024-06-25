@@ -35,6 +35,7 @@ gradle/
 # Android Studio
 .idea
 .gradle
+.kotlin
 build/
 captures/
 *.iml
