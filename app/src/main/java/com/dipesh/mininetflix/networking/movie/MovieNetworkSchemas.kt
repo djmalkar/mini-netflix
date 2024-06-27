@@ -13,7 +13,6 @@ data class MoviesSchema(
 data class MovieSchema(
   val id: Long,
   val adult: Boolean,
-  @Json(name = "backdrop_path") val backDropPath: String,
   @Json(name = "poster_path") val posterPath: String,
   @Json(name = "genre_ids") val genreIds: List<Int>,
   @Json(name = "original_language") val originalLanguage: String,

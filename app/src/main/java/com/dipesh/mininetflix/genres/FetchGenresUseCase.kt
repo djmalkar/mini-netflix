@@ -1,6 +1,5 @@
 package com.dipesh.mininetflix.genres
 
-import com.dipesh.mininetflix.BuildConfig
 import com.dipesh.mininetflix.networking.MoviesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,7 +12,7 @@ class FetchGenresUseCase @Inject constructor(
 
     suspend fun fetchGenres(): List<GenreDao> {
         return withContext(Dispatchers.IO) {
-            genres = moviesApi.getMoviesGenres(BuildConfig.API_KEY).genres.map { genreSchema ->
+            genres = moviesApi.getMoviesGenres().genres.map { genreSchema ->
                 GenreDao(
                     genreSchema.id,
                     genreSchema.name

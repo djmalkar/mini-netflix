@@ -27,7 +27,7 @@ import com.dipesh.mininetflix.movie.dao.MovieDao
 
 
 @Composable
-fun MoreTab(nowPlayingMovies: State<List<MovieDao>>) {
+fun MoreTab(similarMovies: State<List<MovieDao>>) {
 
     Column(
         modifier = Modifier
@@ -48,7 +48,7 @@ fun MoreTab(nowPlayingMovies: State<List<MovieDao>>) {
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
         ) {
-            nowPlayingMovies.value.forEach {
+            similarMovies.value.forEach {
                 Column(modifier = Modifier.width(IntrinsicSize.Max)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -81,7 +81,7 @@ fun MoreTab(nowPlayingMovies: State<List<MovieDao>>) {
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
         ) {
-            nowPlayingMovies.value.forEach {
+            similarMovies.value.forEach {
                 Column(modifier = Modifier.width(IntrinsicSize.Max)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)

@@ -15,7 +15,7 @@ class FetchTrendingMoviesUseCase @Inject constructor(
 
     suspend fun fetchTrendingMovies(): List<MovieDao> {
         return withContext(Dispatchers.IO) {
-            trendingMovies = moviesApi.getTopRatedMovies(BuildConfig.API_KEY).results.map { moviesSchema ->
+            trendingMovies = moviesApi.getTopRatedMovies().results.map { moviesSchema ->
                 MovieDao(
                     Constants.IMAGE_BASE_URL_W500 + moviesSchema.posterPath,
                     moviesSchema.genreIds,

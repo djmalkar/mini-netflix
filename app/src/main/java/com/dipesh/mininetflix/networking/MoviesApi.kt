@@ -1,36 +1,32 @@
 package com.dipesh.mininetflix.networking
 
+import com.dipesh.mininetflix.BuildConfig
 import com.dipesh.mininetflix.networking.genres.GenresSchema
 import com.dipesh.mininetflix.networking.movie.MoviesSchema
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Headers
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface MoviesApi {
 
     @Headers("accept:application/json")
-    @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(
-        @Query("api_key") apiKey: String,
-    ): MoviesSchema
+    @GET("movie/top_rated?api_key=${BuildConfig.API_KEY}")
+    suspend fun getTopRatedMovies(): MoviesSchema
 
     @Headers("accept:application/json")
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(
-        @Query("api_key") apiKey: String,
-    ): MoviesSchema
+    @GET("movie/now_playing?api_key=${BuildConfig.API_KEY}")
+    suspend fun getNowPlayingMovies(): MoviesSchema
 
     @Headers("accept:application/json")
-    @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(
-        @Query("api_key") apiKey: String,
-    ): MoviesSchema
+    @GET("movie/upcoming?api_key=${BuildConfig.API_KEY}")
+    suspend fun getUpcomingMovies(): MoviesSchema
 
     @Headers("accept:application/json")
-    @GET("genre/movie/list")
-    suspend fun getMoviesGenres(
-        @Query("api_key") apiKey: String,
-    ): GenresSchema
+    @GET("movie/{movie_id}/similar?api_key=${BuildConfig.API_KEY}")
+    suspend fun getSimilarMovies(@Path("movie_id") movieId: String): MoviesSchema
+
+    @Headers("accept:application/json")
+    @GET("genre/movie/list?api_key=${BuildConfig.API_KEY}")
+    suspend fun getMoviesGenres(): GenresSchema
 
 }

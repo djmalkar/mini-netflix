@@ -1,6 +1,5 @@
 package com.dipesh.mininetflix.movie.usecases
 
-import com.dipesh.mininetflix.BuildConfig
 import com.dipesh.mininetflix.common.Constants
 import com.dipesh.mininetflix.movie.dao.MovieDao
 import com.dipesh.mininetflix.networking.MoviesApi
@@ -15,7 +14,7 @@ class FetchNowPlayingMoviesUseCase @Inject constructor(
 
     suspend fun fetchNowPlayingMovies(): List<MovieDao> {
         return withContext(Dispatchers.IO) {
-            nowPlayingMovies = moviesApi.getNowPlayingMovies(BuildConfig.API_KEY).results.map { moviesSchema ->
+            nowPlayingMovies = moviesApi.getNowPlayingMovies().results.map { moviesSchema ->
                 MovieDao(
                     Constants.IMAGE_BASE_URL_W500 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
