@@ -7,16 +7,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FetchTrendingMoviesUseCase @Inject constructor(
+class FetchRecommendedMoviesUseCase @Inject constructor(
     private val moviesApi: MoviesApi
 ) {
-    private var trendingMovies: List<MovieDao> = emptyList()
+    private var recommendedMovies: List<MovieDao> = emptyList()
 
-    suspend fun fetchTrendingMovies(): List<MovieDao> {
+    suspend fun fetchRecommendedMovies(movieId: String = "653346"): List<MovieDao> {
         return withContext(Dispatchers.IO) {
-            trendingMovies = moviesApi.getTopRatedMovies().results.map { moviesSchema ->
+            recommendedMovies = moviesApi.getRecommendedMoviesByMovieId(movieId).results.map { moviesSchema ->
                 MovieDao(
-                    Constants.IMAGE_BASE_URL_W500 + moviesSchema.posterPath,
+                    Constants.IMAGE_BASE_URL_W154 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
                     moviesSchema.originalLanguage,
                     moviesSchema.title,
@@ -28,7 +28,7 @@ class FetchTrendingMoviesUseCase @Inject constructor(
                     moviesSchema.voteCount
                 )
             }
-            trendingMovies
+            recommendedMovies
         }
     }
 }

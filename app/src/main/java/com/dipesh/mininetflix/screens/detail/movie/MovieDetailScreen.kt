@@ -1,6 +1,5 @@
 package com.dipesh.mininetflix.screens.detail.movie
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +28,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -51,14 +48,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun MovieDetailScreen(
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
-
-    val similarMovies = viewModel.similarMovies.collectAsState()
-
-    LaunchedEffect(Unit) {
-        Log.d("MovieDetailScreen", "Fetching Initial Dashboard Data")
-        viewModel.fetchInitialData()
-    }
-
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -202,8 +191,8 @@ fun MovieDetailScreen(
 
         when (tabIndex) {
             0 -> EpisodesTab()
-            1 -> MoreTab(similarMovies)
-            2 -> CastTab(similarMovies)
+            1 -> MoreTab(viewModel)
+            2 -> CastTab(viewModel)
         }
     }
 }

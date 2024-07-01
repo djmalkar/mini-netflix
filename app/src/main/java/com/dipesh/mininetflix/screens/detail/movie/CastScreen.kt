@@ -1,5 +1,6 @@
 package com.dipesh.mininetflix.screens.detail.movie
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,10 +28,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dipesh.mininetflix.R
-import com.dipesh.mininetflix.movie.dao.MovieDao
 
 @Composable
-fun CastTab(nowPlayingMovies: State<List<MovieDao>>) {
+fun CastTab(viewModel: MovieDetailViewModel) {
+
+    val casts = viewModel.castInfo.collectAsState()
+
+    LaunchedEffect(Unit) {
+        Log.d("CastTab", "Fetching Similar Movies")
+        viewModel.fetchCastListData()
+    }
 
     Column(
         modifier = Modifier
@@ -49,11 +57,11 @@ fun CastTab(nowPlayingMovies: State<List<MovieDao>>) {
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
         ) {
-            nowPlayingMovies.value.forEach {
+            casts.value.forEach {
                 Box(modifier = Modifier.width(140.dp)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(it.posterPath)
+                            .data(it.profilePath)
                             .build(),
                         placeholder = painterResource(R.drawable.trending_placeholder),
                         modifier = Modifier
@@ -63,7 +71,7 @@ fun CastTab(nowPlayingMovies: State<List<MovieDao>>) {
                         contentDescription = "Now Playing Images",
                     )
                     Text(
-                        text = "Cast Name",
+                        text = it.name,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .align(Alignment.BottomCenter)

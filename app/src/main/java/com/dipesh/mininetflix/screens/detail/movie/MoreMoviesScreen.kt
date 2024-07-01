@@ -1,5 +1,6 @@
 package com.dipesh.mininetflix.screens.detail.movie
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -23,11 +25,19 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dipesh.mininetflix.R
-import com.dipesh.mininetflix.movie.dao.MovieDao
 
 
 @Composable
-fun MoreTab(similarMovies: State<List<MovieDao>>) {
+fun MoreTab(viewModel: MovieDetailViewModel) {
+
+    val similarMovies = viewModel.similarMovies.collectAsState()
+    val recommendedMovies = viewModel.recommendedMovies.collectAsState()
+    val topRatedMovies = viewModel.trendingMovies.collectAsState()
+
+    LaunchedEffect(Unit) {
+        Log.d("MoreTab", "Fetching Similar Movies")
+        viewModel.fetchMoreMoviesData()
+    }
 
     Column(
         modifier = Modifier
@@ -48,7 +58,7 @@ fun MoreTab(similarMovies: State<List<MovieDao>>) {
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
         ) {
-            similarMovies.value.forEach {
+            recommendedMovies.value.forEach {
                 Column(modifier = Modifier.width(IntrinsicSize.Max)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -59,7 +69,7 @@ fun MoreTab(similarMovies: State<List<MovieDao>>) {
                             .width(140.dp)
                             .clickable { },
                         contentScale = ContentScale.FillWidth,
-                        contentDescription = "Now Playing Images",
+                        contentDescription = "Recommended",
                     )
                 }
 
@@ -92,7 +102,7 @@ fun MoreTab(similarMovies: State<List<MovieDao>>) {
                             .width(140.dp)
                             .clickable { },
                         contentScale = ContentScale.FillWidth,
-                        contentDescription = "Now Playing Images",
+                        contentDescription = "Similar Movies",
                     )
                 }
 
@@ -101,6 +111,37 @@ fun MoreTab(similarMovies: State<List<MovieDao>>) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Box Office Hits",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        // Top-Rated Titles
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+        ) {
+            topRatedMovies.value.forEach {
+                Column(modifier = Modifier.width(IntrinsicSize.Max)) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(it.posterPath)
+                            .build(),
+                        placeholder = painterResource(R.drawable.trending_placeholder),
+                        modifier = Modifier
+                            .width(140.dp)
+                            .clickable { },
+                        contentScale = ContentScale.FillWidth,
+                        contentDescription = "Top rated",
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
     }
 
 }
