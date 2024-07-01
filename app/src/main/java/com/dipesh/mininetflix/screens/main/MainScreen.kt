@@ -82,13 +82,18 @@ private fun MainScreenContent(
                 NavHost(navController = mainNestedNavController, startDestination = Route.MainDashboardFragment.routeName) {
                     composable(route = Route.MainDashboardFragment.routeName) {
                         DashboardScreen(
-                            onMovieDetailClicked = {
-                                screensNavigator.toRoute(Route.MovieDetailScreen)
+                            onMovieDetailClicked = { movieId ->
+                                screensNavigator.toRoute(Route.MovieDetailScreen(movieId))
                             }
                         )
                     }
-                    composable(route = Route.MovieDetailScreen.routeName) {
-                        MovieDetailScreen()
+                    composable(route = Route.MovieDetailScreen().routeName) {
+                        val movieId = remember {
+                            (screensNavigator.currentRoute.value as Route.MovieDetailScreen).movieId
+                        }
+                        MovieDetailScreen(
+                            movieId = movieId
+                        )
                     }
                 }
             }

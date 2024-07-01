@@ -1,6 +1,7 @@
 package com.dipesh.mininetflix.movie.dao
 
 data class MovieDao (
+    val id: Long,
     val posterPath: String,
     val genreIds: List<Int>,
     val originalLanguage: String,

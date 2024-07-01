@@ -43,9 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 
-
 @Composable
 fun MovieDetailScreen(
+    movieId: String,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     Column(
@@ -191,8 +191,8 @@ fun MovieDetailScreen(
 
         when (tabIndex) {
             0 -> EpisodesTab()
-            1 -> MoreTab(viewModel)
-            2 -> CastTab(viewModel)
+            1 -> MoreTab(movieId, viewModel)
+            2 -> CastTab(movieId, viewModel)
         }
     }
 }

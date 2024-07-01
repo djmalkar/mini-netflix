@@ -12,10 +12,11 @@ class FetchSimilarMoviesUseCase @Inject constructor(
 ) {
     private var upcomingMovies: List<MovieDao> = emptyList()
 
-    suspend fun fetchSimilarMovies(movieId: String = "653346"): List<MovieDao> {
+    suspend fun fetchSimilarMovies(movieId: String): List<MovieDao> {
         return withContext(Dispatchers.IO) {
             upcomingMovies = moviesApi.getSimilarMovies(movieId).results.map { moviesSchema ->
                 MovieDao(
+                    moviesSchema.id,
                     Constants.IMAGE_BASE_URL_W154 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
                     moviesSchema.originalLanguage,

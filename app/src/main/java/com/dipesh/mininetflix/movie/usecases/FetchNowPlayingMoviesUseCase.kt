@@ -16,6 +16,7 @@ class FetchNowPlayingMoviesUseCase @Inject constructor(
         return withContext(Dispatchers.IO) {
             nowPlayingMovies = moviesApi.getNowPlayingMovies().results.map { moviesSchema ->
                 MovieDao(
+                    moviesSchema.id,
                     Constants.IMAGE_BASE_URL_W500 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
                     moviesSchema.originalLanguage,

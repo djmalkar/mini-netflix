@@ -28,7 +28,10 @@ import com.dipesh.mininetflix.R
 
 
 @Composable
-fun MoreTab(viewModel: MovieDetailViewModel) {
+fun MoreTab(
+    movieId: String,
+    viewModel: MovieDetailViewModel
+) {
 
     val similarMovies = viewModel.similarMovies.collectAsState()
     val recommendedMovies = viewModel.recommendedMovies.collectAsState()
@@ -36,7 +39,7 @@ fun MoreTab(viewModel: MovieDetailViewModel) {
 
     LaunchedEffect(Unit) {
         Log.d("MoreTab", "Fetching Similar Movies")
-        viewModel.fetchMoreMoviesData()
+        viewModel.fetchMoreMoviesData(movieId)
     }
 
     Column(

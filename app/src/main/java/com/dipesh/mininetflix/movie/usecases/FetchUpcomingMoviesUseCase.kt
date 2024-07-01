@@ -17,6 +17,7 @@ class FetchUpcomingMoviesUseCase @Inject constructor(
         return withContext(Dispatchers.IO) {
             upcomingMovies = moviesApi.getUpcomingMovies().results.map { moviesSchema ->
                 MovieDao(
+                    moviesSchema.id,
                     Constants.IMAGE_BASE_URL_W154 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
                     moviesSchema.originalLanguage,

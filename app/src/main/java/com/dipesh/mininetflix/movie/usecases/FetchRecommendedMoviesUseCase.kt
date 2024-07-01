@@ -12,10 +12,11 @@ class FetchRecommendedMoviesUseCase @Inject constructor(
 ) {
     private var recommendedMovies: List<MovieDao> = emptyList()
 
-    suspend fun fetchRecommendedMovies(movieId: String = "653346"): List<MovieDao> {
+    suspend fun fetchRecommendedMovies(movieId: String): List<MovieDao> {
         return withContext(Dispatchers.IO) {
             recommendedMovies = moviesApi.getRecommendedMoviesByMovieId(movieId).results.map { moviesSchema ->
                 MovieDao(
+                    moviesSchema.id,
                     Constants.IMAGE_BASE_URL_W154 + moviesSchema.posterPath,
                     moviesSchema.genreIds,
                     moviesSchema.originalLanguage,

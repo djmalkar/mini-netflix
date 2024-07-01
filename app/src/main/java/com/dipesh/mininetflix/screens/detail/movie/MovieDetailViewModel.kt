@@ -34,20 +34,20 @@ class MovieDetailViewModel @Inject constructor(
     private val _castInfo = MutableStateFlow<List<CastDao>>(emptyList())
     val castInfo : StateFlow<List<CastDao>> = _castInfo
 
-    suspend fun fetchMoreMoviesData(forceUpdate: Boolean = false) {
+    suspend fun fetchMoreMoviesData(movieId: String, forceUpdate: Boolean = false) {
         withContext(Dispatchers.Main.immediate) {
             if (forceUpdate || similarMovies.value.isEmpty()) {
-                _similarMovies.value = fetchSimilarMoviesCase.fetchSimilarMovies().take(10)
-                _recommendedMovies.value = fetchRecommendedMoviesUseCase.fetchRecommendedMovies().take(10)
+                _similarMovies.value = fetchSimilarMoviesCase.fetchSimilarMovies(movieId).take(10)
+                _recommendedMovies.value = fetchRecommendedMoviesUseCase.fetchRecommendedMovies(movieId).take(10)
                 _trendingMovies.value = fetchTrendingMoviesUseCase.fetchTrendingMovies().take(10)
             }
         }
     }
 
-    suspend fun fetchCastListData(forceUpdate: Boolean = false) {
+    suspend fun fetchCastListData(movieId: String, forceUpdate: Boolean = false) {
         withContext(Dispatchers.Main.immediate) {
             if (forceUpdate || castInfo.value.isEmpty()) {
-                _castInfo.value = fetchMovieCreditsUseCase.fetchMovieCredits().take(10)
+                _castInfo.value = fetchMovieCreditsUseCase.fetchMovieCredits(movieId).take(10)
             }
         }
     }

@@ -254,7 +254,7 @@ private fun ContinueWatchingCarousel(
                     placeholder = painterResource(R.drawable.trending_placeholder),
                     modifier = Modifier
                         .width(160.dp)
-                        .clickable { onMovieDetailClicked("") },
+                        .clickable { onMovieDetailClicked(it.id.toString()) },
                     contentDescription = "Now Playing Images",
                 )
                 Row(

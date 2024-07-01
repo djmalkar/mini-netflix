@@ -12,7 +12,7 @@ class FetchMovieCreditsUseCase @Inject constructor(
 ) {
     private var casts: List<CastDao> = emptyList()
 
-    suspend fun fetchMovieCredits(movieId: String = "653346"): List<CastDao> {
+    suspend fun fetchMovieCredits(movieId: String): List<CastDao> {
         return withContext(Dispatchers.IO) {
             casts = moviesApi.getMovieCreditsById(movieId).cast.map { castSchema ->
                 CastDao(

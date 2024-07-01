@@ -30,13 +30,16 @@ import coil.request.ImageRequest
 import com.dipesh.mininetflix.R
 
 @Composable
-fun CastTab(viewModel: MovieDetailViewModel) {
+fun CastTab(
+    movieId: String,
+    viewModel: MovieDetailViewModel
+) {
 
     val casts = viewModel.castInfo.collectAsState()
 
     LaunchedEffect(Unit) {
         Log.d("CastTab", "Fetching Similar Movies")
-        viewModel.fetchCastListData()
+        viewModel.fetchCastListData(movieId)
     }
 
     Column(
